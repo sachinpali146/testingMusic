@@ -12,20 +12,25 @@ from app.models import *;
 def artistcreate(request):
     if request.method == "GET": 
         form = ArtistForm();
-        return render(request, 'app/create.html', { 'form':form });
+        return render(request, 'app/create.html', { 'form':form ,'title':'Create Artist',
+                'year':datetime.now().year,});
     elif request.method == "POST":
         form = ArtistForm(request.POST);
-        form.save();
-        return HttpResponseRedirect('/artists');
+        if form.is_valid():
+            form.save();
+            return HttpResponseRedirect('/artists');
+        else:
+            return HttpResponse(status=406)
+        
 
 def artists(request):
     #return HttpResponse('<html><head><title>Hello, Django!</title></head><body><h1>Hello, Django</h1></body></html>');
     artists = Artist.objects.all();
-    return render_to_response('app/artists.html', { 'artists': artists });
+    return render_to_response('app/artists.html', { 'artists': artists,'year':datetime.now().year, });
 
-def artistdetails(request, id):
-    artist = Artist.objects.get(pk = id);
-    return render_to_response('app/artistdetails.html', { 'artist': artist });
+def artistdetails(request, name):
+    artist = Artist.objects.get(name = name);
+    return render_to_response('app/artistdetails.html', { 'artist': artist,'year':datetime.now().year, });
 
 def home(request):
     """Renders the home page."""
@@ -49,7 +54,7 @@ def contact(request):
         context_instance = RequestContext(request,
         {
             'title':'Contact',
-            'message':'Your contact page.',
+            'message':'Online Music Directory.',
             'year':datetime.now().year,
         })
     )
@@ -63,7 +68,7 @@ def about(request):
         context_instance = RequestContext(request,
         {
             'title':'About',
-            'message':'Your application description page.',
+            'message':'Online Music Directory.',
             'year':datetime.now().year,
         })
     )

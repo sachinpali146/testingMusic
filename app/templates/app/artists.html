@@ -1,4 +1,4 @@
-﻿{% extends "app/layout.html" %}
+{% extends "app/layout.html" %}
 
 {% block content %}
     <h2>Artists</h2>
@@ -6,7 +6,7 @@
     {% for artist in artists %}
         <div class="row">
             <div class="col-md-3">
-                <a href="/artists/{{ artist.id }}">
+                <a href="/artists/{{ artist.name }}">
                     {{ artist.name }}
                 </a>
             </div>
